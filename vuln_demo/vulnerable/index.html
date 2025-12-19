@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SIMS 漏洞展示站点（易受攻击版）</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <h1>SIMS 漏洞展示站点（易受攻击版）</h1>
+    <p>该站点用于展示当前项目中识别到的风险点，并演示不安全的渲染方式。</p>
+    <div class="badge-row">
+      <span class="badge danger">Vulnerable</span>
+      <span class="badge">Port A</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>漏洞清单</h2>
+      <p class="muted">数据来自 <code>vulnerabilities.json</code>。</p>
+      <div id="vuln-list" class="vuln-list" aria-live="polite"></div>
+    </section>
+
+    <section class="panel">
+      <h2>不安全渲染演示</h2>
+      <p class="muted">输入内容会被直接注入到页面中（<code>innerHTML</code>）。</p>
+      <form id="note-form" class="note-form">
+        <label for="note">输入一段说明：</label>
+        <input id="note" name="note" type="text" placeholder="例如：<img src=x onerror=alert(1)>" />
+        <button type="submit">渲染</button>
+      </form>
+      <div class="note-preview">
+        <h3>实时预览</h3>
+        <div id="note-output" class="note-output"></div>
+      </div>
+    </section>
+
+    <section class="panel info">
+      <h2>提示</h2>
+      <ul>
+        <li>该页面故意使用不安全的 DOM 注入方式。</li>
+        <li>请在另一端口打开“修复版”进行对比。</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>SIMS 漏洞演示 · Vulnerable Site</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
