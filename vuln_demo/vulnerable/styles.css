@@ -115,50 +115,6 @@ main {
   color: #ad6b00;
 }
 
-.demo {
-  margin-top: 16px;
-  border-top: 1px dashed #f3b9b9;
-  padding-top: 16px;
-}
-
-.demo-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  align-items: center;
-}
-
-.demo-header h4 {
-  margin: 0 0 6px;
-}
-
-.demo-action {
-  background: var(--danger);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
-  cursor: pointer;
-}
-
-.demo-output {
-  margin-top: 12px;
-  padding: 12px;
-  border-radius: 10px;
-  background: #fef7f7;
-  border: 1px dashed #f3b9b9;
-}
-
-.demo-result {
-  margin-top: 8px;
-  min-height: 24px;
-}
-
-.unsafe {
-  color: var(--danger);
-  font-weight: 600;
-}
-
 .note-form {
   display: grid;
   gap: 12px;

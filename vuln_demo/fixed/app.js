@@ -2,43 +2,6 @@ const listEl = document.getElementById("vuln-list");
 const formEl = document.getElementById("note-form");
 const noteOutput = document.getElementById("note-output");
 
-const createDemo = (item) => {
-  const demo = document.createElement("div");
-  demo.className = "demo";
-
-  const header = document.createElement("div");
-  header.className = "demo-header";
-
-  const headerText = document.createElement("div");
-  const title = document.createElement("h4");
-  title.textContent = item.demoTitle;
-  const desc = document.createElement("p");
-  desc.className = "muted";
-  desc.textContent = item.demoDescription;
-  headerText.append(title, desc);
-
-  const action = document.createElement("button");
-  action.className = "demo-action";
-  action.type = "button";
-  action.textContent = "触发演示";
-  action.addEventListener("click", () => {
-    result.textContent = item.demoPayload;
-  });
-
-  header.append(headerText, action);
-
-  const output = document.createElement("div");
-  output.className = "demo-output";
-  const outputLabel = document.createElement("strong");
-  outputLabel.textContent = "输出：";
-  const result = document.createElement("div");
-  result.className = "demo-result";
-  output.append(outputLabel, result);
-
-  demo.append(header, output);
-  return demo;
-};
-
 const createCard = (item) => {
   const article = document.createElement("article");
   article.className = "vuln-card";
@@ -67,7 +30,7 @@ const createCard = (item) => {
   exampleStrong.textContent = "代码片段：";
   example.append(exampleStrong, document.createTextNode(item.example));
 
-  article.append(header, desc, location, example, createDemo(item));
+  article.append(header, desc, location, example);
   return article;
 };
 
