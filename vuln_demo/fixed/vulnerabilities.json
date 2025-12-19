@@ -1,0 +1,68 @@
+[
+  {
+    "id": "SIMS-001",
+    "title": "不安全的文件上传与路径处理",
+    "severity": "高",
+    "location": "src/web/servlet/file/UploadServlet.java",
+    "description": "上传逻辑仅通过扩展名阻止 .jsp/.htm/.html，未限制大小/内容类型，也未对文件名做归一化或路径清理，攻击者可上传可执行/恶意文件或构造路径覆盖已有文件。",
+    "example": "item.getName() 直接写入到 upload 目录，未清理路径分隔符与非法字符。",
+    "demoTitle": "演示：伪装的恶意文件名",
+    "demoDescription": "模拟上传恶意文件名与双扩展，观察不安全实现的处理结果。",
+    "demoPayload": "payload=student_photo.jpg.php"
+  },
+  {
+    "id": "SIMS-002",
+    "title": "文件下载路径穿越",
+    "severity": "高",
+    "location": "src/web/servlet/file/DownloadServlet.java",
+    "description": "下载接口仅阻止 filename 等于 ../ 或 /，无法阻止 ../secret 等路径穿越，可能读取任意文件。",
+    "example": "getResourceAsStream(\"/upload/\" + filename)",
+    "demoTitle": "演示：路径穿越下载",
+    "demoDescription": "模拟构造下载参数读取任意路径。",
+    "demoPayload": "filename=../WEB-INF/web.xml"
+  },
+  {
+    "id": "SIMS-003",
+    "title": "文件删除路径穿越",
+    "severity": "高",
+    "location": "src/web/servlet/file/DeleteFileServlet.java",
+    "description": "删除接口将 filename 直接拼接到 upload 目录，未做路径归一化或访问控制，可删除任意可访问文件。",
+    "example": "new File(realPath + File.separator + fileName)",
+    "demoTitle": "演示：路径穿越删除",
+    "demoDescription": "模拟构造删除参数定位到非上传目录文件。",
+    "demoPayload": "filename=../../logs/system.log"
+  },
+  {
+    "id": "SIMS-004",
+    "title": "动态拼接列名导致 SQL 注入风险",
+    "severity": "中",
+    "location": "src/dao/impl/StudentDaoImpl.java",
+    "description": "findTotalCount/findByPage 使用请求参数名直接拼接 SQL 片段作为列名，攻击者可构造恶意列名触发 SQL 注入或错误泄露。",
+    "example": "sb.append(\" and \" + key + \" like ?\")",
+    "demoTitle": "演示：列名注入",
+    "demoDescription": "模拟恶意列名造成 SQL 语句被拼接。",
+    "demoPayload": "column=s_name) OR 1=1 --"
+  },
+  {
+    "id": "SIMS-005",
+    "title": "明文密码存储与验证",
+    "severity": "中",
+    "location": "src/dao/impl/AdminDaoImpl.java, src/dao/impl/StudentDaoImpl.java, src/dao/impl/TeacherDaoImpl.java",
+    "description": "登录校验直接对比明文密码，缺乏哈希与加盐，数据库泄露时账号易被接管。",
+    "example": "select * from student where s_id = ? and s_password = ?",
+    "demoTitle": "演示：明文密码泄露",
+    "demoDescription": "模拟泄露的用户名/密码被直接复用。",
+    "demoPayload": "leak={user:1812123206, pass:123}"
+  },
+  {
+    "id": "SIMS-006",
+    "title": "关键文件接口缺少身份与权限校验",
+    "severity": "中",
+    "location": "src/web/servlet/file/UploadServlet.java, src/web/servlet/file/DeleteFileServlet.java",
+    "description": "上传/删除接口未验证会话身份或角色权限，任何未授权访问者都可能操作文件。",
+    "example": "doPost 中未检查 session 角色信息",
+    "demoTitle": "演示：未授权访问",
+    "demoDescription": "模拟未登录用户访问管理接口。",
+    "demoPayload": "actor=anonymous"
+  }
+]
